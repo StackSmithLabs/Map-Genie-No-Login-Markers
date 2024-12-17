@@ -36,8 +36,17 @@ By following these steps, you’ll be able to override `map.js` and implement yo
 
 ## Setup Instructions
 
-Step 1: Add Fake Login Code  
-At the very top of the `map.js` file, add the following after `( () => {`:  
+**Step 0: Easy Way (For Beginners)**  
+If you find all this too complicated, you can skip the steps and just do the following:
+
+1. Delete everything inside your `map.js` file.
+2. Copy and paste content from: https://raw.githubusercontent.com/StackSmithLabs/Map-Genie-No-Login-Markers/refs/heads/main/map.js  
+3. Press `Ctrl + S` to save the file.
+4. Reload the page, and you’re done!
+
+**Step 1: Add Fake Login Code**
+1. Open the `map.js` file.
+2. At the very top of the file, right after `( () => {`, add the following code:
 ```
 // Initialize fake user login details
 window.user = { 
@@ -77,20 +86,18 @@ function extractIdFromUrl(url) {
 }
 ```
 
-Step 2: Modify the Protocol Check  
-Find this line in the `map.js` file `var C = p(k);`
-
-Replace the following line:  
-`C && -1 === ["http", "https", "file"].indexOf(C) ? n(new d("Unsupported protocol " + C + ":",d.ERR_BAD_REQUEST,e)) : b.send(h);`  
-With:  
+**Step 2: Modify the Protocol Check** 
+1. In the `map.js` file, find this line:
+`C && -1 === ["http", "https", "file"].indexOf(C) ? n(new d("Unsupported protocol " + C + ":",d.ERR_BAD_REQUEST,e)) : b.send(h);`
+2. Replace it with the following code: 
 `if (C && -1 === ["http", "https", "file"].indexOf(C)) { n(new d("Unsupported protocol " + C + ":", d.ERR_BAD_REQUEST, e)); } else { handleLocationRequest(b, e, k); }`
 
-Step 3: Remove `b.send(h);`  
-Make sure `b.send(h);` is **removed** completely from the code to avoid errors when tracking locations.
+Step 3: Add Error Handling (Optional)  
+If you run into issues, add this code **right under** the function that contains `var k = s(e.baseURL, e.url);`  
+1. `if (b.status === 401) { t(i); v(); b = null; return; }`
 
-Step 4: Add Error Handling (Optional)  
-If issues persist, add this line **under** the function that contains `var k = s(e.baseURL, e.url);` (look for `baseURL`):  
-`if (b.status === 401) { t(i); v(); b = null; return; }`
+**Last Step: Save the File**  
+1. Press `Ctrl + S` to save your changes in the `map.js` file.
 
 ## Troubleshooting  
 - Ensure `b.send(h);` is removed.  
